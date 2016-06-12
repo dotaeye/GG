@@ -37,6 +37,8 @@ namespace GG.Data
 
             modelBuilder.Configurations.Add(new ApplicationUserMap());
             modelBuilder.Configurations.Add(new UserActivitiesMap());
+            modelBuilder.Configurations.Add(new BlogMap());
+            modelBuilder.Configurations.Add(new BlogTypeMap());
 
             base.OnModelCreating(modelBuilder);
         }

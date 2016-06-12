@@ -21,75 +21,75 @@ using System.Threading.Tasks;
 
 namespace GG.Controllers
 {
-    [RoutePrefix("api/Blog")]
-    public class BlogController : ApiController
+    [RoutePrefix("api/UserActivities")]
+    public class UserActivitiesController : ApiController
     {
-        private IBlogService BlogService;
-        public BlogController(
-            IBlogService _BlogService
+        private IUserActivitiesService UserActivitiesService;
+        public UserActivitiesController(
+            IUserActivitiesService _UserActivitiesService
           )
         {
-            this.BlogService = _BlogService;
+            this.UserActivitiesService = _UserActivitiesService;
         }
 
         [Route("")]
-        public IQueryable<BlogDTO> Get()
+        public IQueryable<UserActivitiesDTO> Get()
         {
-            return BlogService.GetAll().Where(x=>!x.Deleted).ProjectTo<BlogDTO>();
+            return UserActivitiesService.GetAll().Where(x=>!x.Deleted).ProjectTo<UserActivitiesDTO>();
         }
 
         [Route("{id:int}")]
-        [ResponseType(typeof(BlogDTO))]
+        [ResponseType(typeof(UserActivitiesDTO))]
         public async Task<IHttpActionResult> GetById(int id)
         {
-            BlogDTO Blog = await BlogService.GetAll().Where(x => x.Id == id&&!x.Deleted).ProjectTo<BlogDTO>().FirstOrDefaultAsync();
-            if (Blog == null)
+            UserActivitiesDTO UserActivities = await UserActivitiesService.GetAll().Where(x => x.Id == id&&!x.Deleted).ProjectTo<UserActivitiesDTO>().FirstOrDefaultAsync();
+            if (UserActivities == null)
             {
                 return NotFound();
             }
-            return Ok(Blog);
+            return Ok(UserActivities);
         }
 
         [Route("")]
         [HttpPost]
-        [ResponseType(typeof(BlogDTO))]
-        public async Task<IHttpActionResult> Create([FromBody]BlogDTO BlogDto)
+        [ResponseType(typeof(UserActivitiesDTO))]
+        public async Task<IHttpActionResult> Create([FromBody]UserActivitiesDTO UserActivitiesDto)
         {
 		    if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var entity = BlogDto.ToEntity();
-            await BlogService.InsertAsync(entity);
+            var entity = UserActivitiesDto.ToEntity();
+            await UserActivitiesService.InsertAsync(entity);
             return Ok(entity.ToModel());
         }
 
 
         [Route("{id:int}")]
         [HttpPut]
-        [ResponseType(typeof(BlogDTO))]
-        public async Task<IHttpActionResult> Update(int id, [FromBody]BlogDTO BlogDto)
+        [ResponseType(typeof(UserActivitiesDTO))]
+        public async Task<IHttpActionResult> Update(int id, [FromBody]UserActivitiesDTO UserActivitiesDto)
         {
 			if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var entity = BlogDto.ToEntity();
-            await BlogService.UpdateAsync(entity);
+            var entity = UserActivitiesDto.ToEntity();
+            await UserActivitiesService.UpdateAsync(entity);
             return Ok(entity.ToModel());
         }
 
         [Route("{id:int}")]
         [HttpDelete]
-        [ResponseType(typeof(BlogDTO))]
+        [ResponseType(typeof(UserActivitiesDTO))]
         public async Task<IHttpActionResult> Delete(int id)
         {
-            Blog entity = await BlogService.FindOneAsync(id);
+            UserActivities entity = await UserActivitiesService.FindOneAsync(id);
             if (entity == null)
             {
                 return NotFound();
             }
-            await BlogService.DeleteAsync(entity);
+            await UserActivitiesService.DeleteAsync(entity);
 
             return Ok(entity.ToModel());
         }

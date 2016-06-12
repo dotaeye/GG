@@ -10,25 +10,24 @@ using GG.Data.DTO;
 
 namespace GG.Data.AutoMapper
 {
-	public class BlogTypeProfile : BaseProfile
+    public class BlogTypeProfile : BaseProfile
     {
         public BlogTypeProfile() : base("BlogTypeProfile")
         {
         }
 
-		protected override void CreateMaps()
+        protected override void CreateMaps()
         {
-			 
-			CreateMap<BlogType, BlogTypeDTO>()
-;
 
-			 
-        CreateMap<BlogTypeDTO, BlogType>()
-.ForMember(entity => entity.PCate, o => o.Ignore())
-.ForMember(entity => entity.ChildCates, o => o.Ignore())
-.ForMember(entity => entity.Blog, o => o.Ignore())
-.ForMember(entity => entity.ApplicationUser, o => o.Ignore())
-;
+            CreateMap<BlogType, BlogTypeDTO>();
+
+
+            CreateMap<BlogTypeDTO, BlogType>()
+                .ForMember(entity => entity.Deleted, o => o.Ignore())
+                .ForMember(entity => entity.PCate, o => o.Ignore())
+                .ForMember(entity => entity.ChildCates, o => o.Ignore())
+                .ForMember(entity => entity.Blog, o => o.Ignore())
+                .ForMember(entity => entity.ApplicationUser, o => o.Ignore());
         }
     }
 }

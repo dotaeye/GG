@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using SQ.Core.Infrastructure;
+using FluentValidation;
+using FluentValidation.WebApi;
 
 namespace GG
 {
@@ -21,6 +23,8 @@ namespace GG
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            FluentValidationModelValidatorProvider.Configure(GlobalConfiguration.Configuration);
         }
+
     }
 }

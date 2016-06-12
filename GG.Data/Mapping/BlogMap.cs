@@ -26,7 +26,7 @@ namespace GG.Data.Mapping
 
             this.HasRequired(a => a.BlogType).WithMany(x => x.Blog)
 
-                .HasForeignKey(x => x.BlogTypeID).WillCascadeOnDelete(false);
+                .HasForeignKey(x => x.BlogTypeId).WillCascadeOnDelete(false);
         }
     }
 }

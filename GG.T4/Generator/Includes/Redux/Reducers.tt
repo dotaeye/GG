@@ -1,0 +1,128 @@
+﻿
+<#+
+    // <copyright file="ImplService.tt" company="">
+    //  Copyright © . All Rights Reserved.
+    // </copyright>
+
+    public class Reducers : BaseTemplate
+    {
+
+
+        public Reducers(T4ModelInfo model):base(model)
+        {  
+        }
+        /// <summary>
+        /// 获取 生成的文件名，根据模型名定义
+        /// </summary>
+        public override string FileName
+        {
+            get
+            { 
+                return string.Format("{0}.js", this.CamelCaseName);
+            }
+        }
+
+        public override string ModuleName
+        {
+            get
+            { 
+                return _model.Name;
+            }
+        }
+
+
+        public override string SavePath
+        {
+            get
+            { 
+                return "\\src\\reducers";
+            }
+        }
+
+		public string UpperName
+        {
+            get
+            { 
+                return _model.Name.ToUpper();
+            }
+        }
+
+		public string CamelCaseName
+        {
+            get
+            { 
+                return _model.Name.Substring(0, 1).ToLower() + _model.Name.Substring(1);
+            }
+        }
+
+
+        public override string TransformText()
+        {
+            base.TransformText();
+#>
+
+import * as <#=CamelCaseName#>Types from '../contants/<#=CamelCaseName#>';
+
+const initialState = {
+};
+
+export default function <#=CamelCaseName#>(state = initialState, action = {}) {
+	switch (action.type) {
+		case authTypes.GET_ALL_<#=UpperName#>:
+		case authTypes.GET_ONE_<#=UpperName#>:
+		case authTypes.CREATE_<#=UpperName#>:
+		case authTypes.UPDATE_<#=UpperName#>:
+		case authTypes.DELETE_<#=UpperName#>:
+			return {
+				...state,
+				loading: true
+			};
+		case authTypes.GET_ALL_<#=UpperName#>_FAIL:
+		case authTypes.GET_ONE_<#=UpperName#>_FAIL:
+		case authTypes.CREATE_<#=UpperName#>_FAIL:
+		case authTypes.UPDATE_<#=UpperName#>_FAIL:
+		case authTypes.DELETE_<#=UpperName#>_FAIL:
+			return {
+				...state,
+				loading: false,
+				error: action.error
+			};
+		case authTypes.GET_ALL_<#=UpperName#>_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				list: action.result
+			};
+		case authTypes.GET_ONE_<#=UpperName#>_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				entity: action.result
+			};
+		case authTypes.CREATE_<#=UpperName#>_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				entity: action.result
+			};
+		case authTypes.UPDATE_<#=UpperName#>_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				entity: action.result
+			};
+		case authTypes.DELETE_<#=UpperName#>_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				entity: action.result
+			};
+		default:
+			return state;
+  }
+}
+
+<#+
+            return this.GenerationEnvironment.ToString();
+        }
+    }                      #>

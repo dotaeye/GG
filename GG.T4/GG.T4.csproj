@@ -34,6 +34,10 @@
       <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,17 +62,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Entry.cs</LastGenOutput>
       <LastOutputs>
-..\DTOs\BlogDTO.cs
-..\DTOs\BlogTypeDTO.cs
-..\DTOs\UserActivitiesDTO.cs
-..\Impl\BlogService.cs
-..\Impl\BlogTypeService.cs
-..\Impl\UserActivitiesService.cs
-..\ModelMapper\AutoMapperStartupTask.cs
-..\ModelMapper\MappingExtensions.cs
-..\Service\IBlogService.cs
-..\Service\IBlogTypeService.cs
-..\Service\IUserActivitiesService.cs
+..\Controllers\BlogController.cs
+..\Controllers\BlogTypeController.cs
+..\Controllers\UserActivitiesController.cs
 .\Entry.cs
 </LastOutputs>
     </Content>
@@ -80,6 +76,10 @@
     <Content Include="Generator\Includes\Mapping.tt" />
     <Content Include="Generator\Includes\MappingExtensions.tt" />
     <Content Include="Generator\Includes\Profile.tt" />
+    <Content Include="Generator\Includes\Redux\Actions.tt" />
+    <Content Include="Generator\Includes\Redux\Contants.tt" />
+    <Content Include="Generator\Includes\Redux\Reducers.tt" />
+    <Content Include="Generator\Includes\Validators.tt" />
     <Content Include="Generator\MainGenerator.tt" />
   </ItemGroup>
   <ItemGroup>

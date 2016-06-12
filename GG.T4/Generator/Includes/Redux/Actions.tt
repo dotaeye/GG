@@ -1,0 +1,116 @@
+﻿
+<#+
+    // <copyright file="ImplService.tt" company="">
+    //  Copyright © . All Rights Reserved.
+    // </copyright>
+
+    public class Actions : BaseTemplate
+    {
+
+
+        public Actions(T4ModelInfo model):base(model)
+        {  
+        }
+        /// <summary>
+        /// 获取 生成的文件名，根据模型名定义
+        /// </summary>
+        public override string FileName
+        {
+            get
+            { 
+                return string.Format("{0}.js", this.CamelCaseName);
+            }
+        }
+
+        public override string ModuleName
+        {
+            get
+            { 
+                return _model.Name;
+            }
+        }
+
+
+        public override string SavePath
+        {
+            get
+            { 
+                return "\\src\\actions";
+            }
+        }
+
+		public string UpperName
+        {
+            get
+            { 
+                return _model.Name.ToUpper();
+            }
+        }
+
+		public string CamelCaseName
+        {
+            get
+            { 
+                return _model.Name.Substring(0, 1).ToLower() + _model.Name.Substring(1);
+            }
+        }
+
+
+        public override string TransformText()
+        {
+            base.TransformText();
+#>
+
+import * as <#=CamelCaseName#>Types from '../contants/<#=CamelCaseName#>';
+
+export function getAll() {
+  return {
+    types: [<#=CamelCaseName#>Types.GET_ALL_<#=UpperName#>, <#=CamelCaseName#>Types.GET_ALL_<#=UpperName#>_SUCCESS, <#=CamelCaseName#>Types.GET_ALL_<#=UpperName#>_FAIL],
+    promise: (client) => client.get('/<#=CamelCaseName#>',{
+      token: true
+    })
+  };
+}
+
+export function getById(id) {
+  return {
+    types: [<#=CamelCaseName#>Types.GET_ONE_<#=UpperName#>, <#=CamelCaseName#>Types.GET_ONE_<#=UpperName#>_SUCCESS, <#=CamelCaseName#>Types.GET_ONE_<#=UpperName#>_FAIL],
+    promise: (client) => client.get('/<#=CamelCaseName#>'+id,{
+      token: true
+    })
+  };
+}
+
+export function create(data) {
+  return {
+    types: [<#=CamelCaseName#>.CREATE_<#=UpperName#>, <#=CamelCaseName#>.CREATE_<#=UpperName#>_SUCCESS, <#=CamelCaseName#>.CREATE_<#=UpperName#>_FAIL],
+    promise: (client) => client.post('/<#=CamelCaseName#>', {
+      data: data,
+	  token: true
+    })
+  };
+}
+
+export function update(id, data) {
+  return {
+    types: [<#=CamelCaseName#>.UPDATE_<#=UpperName#>, <#=CamelCaseName#>.UPDATE_<#=UpperName#>_SUCCESS, <#=CamelCaseName#>.UPDATE_<#=UpperName#>_FAIL],
+    promise: (client) => client.put('/<#=CamelCaseName#>/'+id, {
+      data: data,
+	  token: true
+    })
+  };
+}
+
+export function delete(id) {
+  return {
+    types: [<#=CamelCaseName#>.DELETE_<#=UpperName#>, <#=CamelCaseName#>.DELETE_<#=UpperName#>_SUCCESS, <#=CamelCaseName#>.DELETE_<#=UpperName#>_FAIL],
+    promise: (client) => client.delete('/<#=CamelCaseName#>/'+id, {
+		token: true
+    })
+  };
+}
+
+<#+
+            return this.GenerationEnvironment.ToString();
+        }
+    }                      #>

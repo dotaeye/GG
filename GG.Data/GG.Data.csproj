@@ -40,6 +40,10 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -81,27 +85,23 @@
     <Compile Include="AppContext.cs" />
     <Compile Include="AutoMapper\AutoMapperStartupTask.cs" />
     <Compile Include="AutoMapper\BlogProfile.cs" />
+    <Compile Include="AutoMapper\BlogTypeProfile.cs" />
+    <Compile Include="AutoMapper\MappingExtensions.cs" />
+    <Compile Include="AutoMapper\UserActivitiesProfile.cs" />
     <Compile Include="DTO\BlogDTO.cs" />
     <Compile Include="DTO\BlogTypeDTO.cs" />
     <Compile Include="DTO\UserActivitiesDTO.cs" />
     <Compile Include="EfStartUpTask.cs" />
     <Compile Include="Impl\BlogService.cs" />
+    <Compile Include="Impl\BlogTypeService.cs" />
     <Compile Include="Impl\UserActivitiesService.cs" />
     <Compile Include="Mapping\ApplicationUserMap.cs" />
     <Compile Include="Mapping\BlogMap.cs" />
     <Compile Include="Mapping\BlogTypeMap.cs" />
     <Compile Include="Mapping\UserActivitiesMap.cs" />
-    <Compile Include="Migrations\201512250504261_InitialCreate.cs" />
-    <Compile Include="Migrations\201512250504261_InitialCreate.Designer.cs">
-      <DependentUpon>201512250504261_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601040921413_AddBlogModels.cs" />
-    <Compile Include="Migrations\201601040921413_AddBlogModels.Designer.cs">
-      <DependentUpon>201601040921413_AddBlogModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601050843073_UpdateBlogFields.cs" />
-    <Compile Include="Migrations\201601050843073_UpdateBlogFields.Designer.cs">
-      <DependentUpon>201601050843073_UpdateBlogFields.cs</DependentUpon>
+    <Compile Include="Migrations\201606080840080_initProject.cs" />
+    <Compile Include="Migrations\201606080840080_initProject.Designer.cs">
+      <DependentUpon>201606080840080_initProject.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -111,8 +111,12 @@
     <Compile Include="Models\UserActivityType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IBlogService.cs" />
-    <Compile Include="Service\IUserActivitiesServices.cs" />
+    <Compile Include="Service\IBlogTypeService.cs" />
+    <Compile Include="Service\IUserActivitiesService.cs" />
     <Compile Include="SqlServerDataProvider.cs" />
+    <Compile Include="Validator\BlogTypeValidator.cs" />
+    <Compile Include="Validator\BlogValidator.cs" />
+    <Compile Include="Validator\UserActivitiesValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -125,17 +129,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512250504261_InitialCreate.resx">
-      <DependentUpon>201512250504261_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601040921413_AddBlogModels.resx">
-      <DependentUpon>201601040921413_AddBlogModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601050843073_UpdateBlogFields.resx">
-      <DependentUpon>201601050843073_UpdateBlogFields.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606080840080_initProject.resx">
+      <DependentUpon>201606080840080_initProject.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

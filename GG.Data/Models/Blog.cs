@@ -10,7 +10,7 @@ namespace GG.Data.Models
         public string Content { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime LastTime { get; set; }
-        public int BlogTypeID { get; set; }
+        public int BlogTypeId { get; set; }
         public string UserId { get; set; }
         public string Url { get; set; }
 

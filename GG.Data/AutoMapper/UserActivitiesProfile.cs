@@ -19,13 +19,12 @@ namespace GG.Data.AutoMapper
 		protected override void CreateMaps()
         {
 			 
-			CreateMap<UserActivities, UserActivitiesDTO>()
-;
+			CreateMap<UserActivities, UserActivitiesDTO>();
 
 			 
-        CreateMap<UserActivitiesDTO, UserActivities>()
-.ForMember(entity => entity.ApplicationUser, o => o.Ignore())
-;
+            CreateMap<UserActivitiesDTO, UserActivities>()
+                .ForMember(entity => entity.Deleted, o => o.Ignore())
+                .ForMember(entity => entity.ApplicationUser, o => o.Ignore());
         }
     }
 }

@@ -9,12 +9,12 @@ import clientMiddleware from './middleware/clientMiddleware'
 import createRoutes from './routes'
 import ApiClient from './utils/ApiClient';
 import fetchData from './utils/fetchData';
-import sessionStorage from './utils/sessionStorage';
+import baseStorage from './utils/baseStorage';
 import reducers from './reducers'
 import configs from './configs';
 import 'antd/lib/style/index.css';
 
-sessionStorage.setNamespace('dotaeye');
+baseStorage.setNamespace('gg');
 
 const createStoreWithMW = applyMiddleware(clientMiddleware(new ApiClient()))(createStore);
 const store = createStoreWithMW(reducers);

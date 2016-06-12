@@ -76,7 +76,7 @@ using AutoMapper;
 using GG.Data.Models;
 using GG.Data.DTO;
 
-namespace GG.Data.Mapping
+namespace GG.Data.AutoMapper
 {
     public static class MappingExtensions
     {

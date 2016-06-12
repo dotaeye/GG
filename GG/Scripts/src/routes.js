@@ -2,7 +2,7 @@ import React from 'react';
 import {IndexRoute, Route} from 'react-router';
 import { loadAuthToken } from './actions/auth';
 import configs from './configs';
-import sessionStorage from './utils/sessionStorage';
+import baseStorage from './utils/baseStorage';
 import {
   App,
   Home,
@@ -24,7 +24,7 @@ export default (store) => {
     }
     const { auth: { loaded }} = store.getState();
     if (!loaded) {
-      const authToken = sessionStorage.get(configs.authToken);
+      const authToken = baseStorage.getStorage(configs.storage).get(configs.authToken);
       store.dispatch(loadAuthToken(authToken));
       checkAuth();
     } else {

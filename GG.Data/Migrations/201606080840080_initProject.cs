@@ -3,7 +3,7 @@ namespace GG.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class initProject : DbMigration
     {
         public override void Up()
         {
@@ -54,6 +54,44 @@ namespace GG.Data.Migrations
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
             
             CreateTable(
+                "dbo.Blog",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 50),
+                        Content = c.String(nullable: false),
+                        CreateTime = c.DateTime(nullable: false),
+                        LastTime = c.DateTime(nullable: false),
+                        BlogTypeId = c.Int(nullable: false),
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        Url = c.String(nullable: false, maxLength: 20),
+                        Deleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
+                .ForeignKey("dbo.BlogType", t => t.BlogTypeId)
+                .Index(t => t.BlogTypeId)
+                .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.BlogType",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        CateName = c.String(nullable: false, maxLength: 50),
+                        PID = c.Int(),
+                        Code = c.String(nullable: false, maxLength: 50),
+                        Level = c.Int(nullable: false),
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        Deleted = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
+                .ForeignKey("dbo.BlogType", t => t.PID)
+                .Index(t => t.PID)
+                .Index(t => t.UserId);
+            
+            CreateTable(
                 "dbo.AspNetUserClaims",
                 c => new
                     {
@@ -85,6 +123,7 @@ namespace GG.Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Time = c.DateTime(nullable: false),
                         UserId = c.String(nullable: false, maxLength: 128),
+                        Deleted = c.Boolean(nullable: false),
                         Type = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -99,10 +138,18 @@ namespace GG.Data.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Blog", "BlogTypeId", "dbo.BlogType");
+            DropForeignKey("dbo.BlogType", "PID", "dbo.BlogType");
+            DropForeignKey("dbo.BlogType", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Blog", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropIndex("dbo.UserActivities", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
+            DropIndex("dbo.BlogType", new[] { "UserId" });
+            DropIndex("dbo.BlogType", new[] { "PID" });
+            DropIndex("dbo.Blog", new[] { "UserId" });
+            DropIndex("dbo.Blog", new[] { "BlogTypeId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
@@ -110,6 +157,8 @@ namespace GG.Data.Migrations
             DropTable("dbo.UserActivities");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
+            DropTable("dbo.BlogType");
+            DropTable("dbo.Blog");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");

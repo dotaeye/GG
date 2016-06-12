@@ -26,6 +26,7 @@ namespace GG.Data.AutoMapper
 
             CreateMap<BlogDTO, Blog>()
     .ForMember(entity => entity.BlogType, o => o.Ignore())
+    .ForMember(entity => entity.Deleted, o => o.Ignore())
     .ForMember(entity => entity.ApplicationUser, o => o.Ignore())
     ;
         }

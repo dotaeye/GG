@@ -21,75 +21,75 @@ using System.Threading.Tasks;
 
 namespace GG.Controllers
 {
-    [RoutePrefix("api/Blog")]
-    public class BlogController : ApiController
+    [RoutePrefix("api/BlogType")]
+    public class BlogTypeController : ApiController
     {
-        private IBlogService BlogService;
-        public BlogController(
-            IBlogService _BlogService
+        private IBlogTypeService BlogTypeService;
+        public BlogTypeController(
+            IBlogTypeService _BlogTypeService
           )
         {
-            this.BlogService = _BlogService;
+            this.BlogTypeService = _BlogTypeService;
         }
 
         [Route("")]
-        public IQueryable<BlogDTO> Get()
+        public IQueryable<BlogTypeDTO> Get()
         {
-            return BlogService.GetAll().Where(x=>!x.Deleted).ProjectTo<BlogDTO>();
+            return BlogTypeService.GetAll().Where(x=>!x.Deleted).ProjectTo<BlogTypeDTO>();
         }
 
         [Route("{id:int}")]
-        [ResponseType(typeof(BlogDTO))]
+        [ResponseType(typeof(BlogTypeDTO))]
         public async Task<IHttpActionResult> GetById(int id)
         {
-            BlogDTO Blog = await BlogService.GetAll().Where(x => x.Id == id&&!x.Deleted).ProjectTo<BlogDTO>().FirstOrDefaultAsync();
-            if (Blog == null)
+            BlogTypeDTO BlogType = await BlogTypeService.GetAll().Where(x => x.Id == id&&!x.Deleted).ProjectTo<BlogTypeDTO>().FirstOrDefaultAsync();
+            if (BlogType == null)
             {
                 return NotFound();
             }
-            return Ok(Blog);
+            return Ok(BlogType);
         }
 
         [Route("")]
         [HttpPost]
-        [ResponseType(typeof(BlogDTO))]
-        public async Task<IHttpActionResult> Create([FromBody]BlogDTO BlogDto)
+        [ResponseType(typeof(BlogTypeDTO))]
+        public async Task<IHttpActionResult> Create([FromBody]BlogTypeDTO BlogTypeDto)
         {
 		    if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var entity = BlogDto.ToEntity();
-            await BlogService.InsertAsync(entity);
+            var entity = BlogTypeDto.ToEntity();
+            await BlogTypeService.InsertAsync(entity);
             return Ok(entity.ToModel());
         }
 
 
         [Route("{id:int}")]
         [HttpPut]
-        [ResponseType(typeof(BlogDTO))]
-        public async Task<IHttpActionResult> Update(int id, [FromBody]BlogDTO BlogDto)
+        [ResponseType(typeof(BlogTypeDTO))]
+        public async Task<IHttpActionResult> Update(int id, [FromBody]BlogTypeDTO BlogTypeDto)
         {
 			if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var entity = BlogDto.ToEntity();
-            await BlogService.UpdateAsync(entity);
+            var entity = BlogTypeDto.ToEntity();
+            await BlogTypeService.UpdateAsync(entity);
             return Ok(entity.ToModel());
         }
 
         [Route("{id:int}")]
         [HttpDelete]
-        [ResponseType(typeof(BlogDTO))]
+        [ResponseType(typeof(BlogTypeDTO))]
         public async Task<IHttpActionResult> Delete(int id)
         {
-            Blog entity = await BlogService.FindOneAsync(id);
+            BlogType entity = await BlogTypeService.FindOneAsync(id);
             if (entity == null)
             {
                 return NotFound();
             }
-            await BlogService.DeleteAsync(entity);
+            await BlogTypeService.DeleteAsync(entity);
 
             return Ok(entity.ToModel());
         }

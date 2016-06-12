@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DotaEye</RootNamespace>
-    <AssemblyName>DotaEye</AssemblyName>
+    <RootNamespace>GG</RootNamespace>
+    <AssemblyName>GG</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -29,7 +29,7 @@
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -64,6 +64,14 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidation.WebApi, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.WebApi.6.2.1.0\lib\Net45\FluentValidation.WebApi.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -235,9 +243,11 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
+    <Compile Include="Controllers\BlogTypeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MobileController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\UserActivitiesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -326,34 +336,26 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\src\actions\auth.js" />
     <Content Include="Scripts\src\actions\blog.js" />
-    <Content Include="Scripts\src\actions\blogtype.js" />
-    <Content Include="Scripts\src\actions\order.js" />
+    <Content Include="Scripts\src\actions\blogType.js" />
+    <Content Include="Scripts\src\actions\userActivities.js" />
     <Content Include="Scripts\src\client.js" />
-    <Content Include="Scripts\src\components\form\BlogTypeForm.js" />
     <Content Include="Scripts\src\components\form\LoginForm.js" />
     <Content Include="Scripts\src\components\form\ProfileForm.js" />
     <Content Include="Scripts\src\components\form\RegisterForm.js" />
     <Content Include="Scripts\src\components\index.js" />
-    <Content Include="Scripts\src\components\LoginForm.js" />
-    <Content Include="Scripts\src\components\mobile\NavBar.js" />
     <Content Include="Scripts\src\configs\index.js" />
     <Content Include="Scripts\src\containers\App.js" />
-    <Content Include="Scripts\src\containers\Blog.js" />
-    <Content Include="Scripts\src\containers\BlogType.js" />
-    <Content Include="Scripts\src\containers\DevTools.js" />
     <Content Include="Scripts\src\containers\Home.js" />
     <Content Include="Scripts\src\containers\index.js" />
-    <Content Include="Scripts\src\containers\List.js" />
     <Content Include="Scripts\src\containers\Login.js" />
     <Content Include="Scripts\src\containers\NotFound.js" />
     <Content Include="Scripts\src\containers\Profile.js" />
     <Content Include="Scripts\src\containers\Register.js" />
     <Content Include="Scripts\src\contants\auth.js" />
     <Content Include="Scripts\src\contants\blog.js" />
-    <Content Include="Scripts\src\contants\blogtype.js" />
-    <Content Include="Scripts\src\contants\order.js" />
+    <Content Include="Scripts\src\contants\blogType.js" />
+    <Content Include="Scripts\src\contants\userActivities.js" />
     <Content Include="Scripts\src\middleware\clientMiddleware.js" />
-    <Content Include="Scripts\src\middleware\transitionMiddleware.js" />
     <Content Include="Scripts\src\mixins\urlContent.js" />
     <Content Include="Scripts\src\polyfills\datetime.js" />
     <Content Include="Scripts\src\polyfills\index.js" />
@@ -369,19 +371,15 @@
     <Content Include="Scripts\src\public\styles\mobile.css" />
     <Content Include="Scripts\src\reducers\auth.js" />
     <Content Include="Scripts\src\reducers\blog.js" />
-    <Content Include="Scripts\src\reducers\blogtype.js" />
+    <Content Include="Scripts\src\reducers\blogType.js" />
     <Content Include="Scripts\src\reducers\index.js" />
-    <Content Include="Scripts\src\reducers\order.js" />
+    <Content Include="Scripts\src\reducers\userActivities.js" />
     <Content Include="Scripts\src\routes.js" />
-    <Content Include="Scripts\src\stores\createStore.js" />
     <Content Include="Scripts\src\utils\ApiClient.js" />
     <Content Include="Scripts\src\utils\connectStatic.js" />
     <Content Include="Scripts\src\utils\env.js" />
     <Content Include="Scripts\src\utils\fetchData.js" />
-    <Content Include="Scripts\src\utils\getDataDependencies.js" />
-    <Content Include="Scripts\src\utils\getStatusFromRoutes.js" />
-    <Content Include="Scripts\src\utils\makeRouteHooksSafe.js" />
-    <Content Include="Scripts\src\utils\sessionStorage.js" />
+    <Content Include="Scripts\src\utils\baseStorage.js" />
     <Content Include="Scripts\src\utils\validation.js" />
     <Content Include="Scripts\WebApiTestClient.js" />
     <Content Include="Scripts\webpack.dev.config.js" />
@@ -417,6 +415,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\BlogType\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

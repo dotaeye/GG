@@ -62,7 +62,10 @@ namespace GG.Ioc
 
 
 
-            builder.RegisterType<UserActivitiesService>().As<IUserActivitiesServices>().InstancePerRequest();
+            builder.RegisterType<UserActivitiesService>().As<IUserActivitiesService>().InstancePerRequest();
+            builder.RegisterType<BlogService>().As<IBlogService>().InstancePerRequest();
+            builder.RegisterType<BlogTypeService>().As<IBlogTypeService>().InstancePerRequest();
+
         }
 
         public int Order

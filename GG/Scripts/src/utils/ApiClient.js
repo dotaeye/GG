@@ -1,8 +1,10 @@
 import superagent from 'superagent';
 import configs from '../configs';
-import sessionStorage from './sessionStorage';
+import baseStorage from './baseStorage';
 
 const methods = ['get', 'post', 'put', 'patch', 'del'];
+
+const storage = baseStorage.getStorage(configs.storage);
 
 function formatUrl(path) {
   let adjustedPath = path[0] !== '/' ? '/' + path : path;
@@ -30,7 +32,7 @@ class _ApiClient {
         }
         if (save) {
           const { key, expired }=save;
-          sessionStorage.retrieve(key, expired, (body)=> {
+          storage.retrieve(key, expired, (body)=> {
             resolve(body)
           }, (saveCallback, saveOption)=> {
             request.end((err, { body } = {}) => {
@@ -43,7 +45,7 @@ class _ApiClient {
           request.end((err, { body } = {}) => {
             if (err) reject(body || err);
             if (clear) {
-              sessionStorage.remove(clear.key);
+              storage.remove(clear.key);
             }
             resolve(body)
           });

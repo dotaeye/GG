@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
+using System.Reflection;
 using SQ.Core.Task;
 using SQ.Core.AutoMapper;
 
@@ -13,7 +14,8 @@ namespace GG.Data.AutoMapper
             Mapper.Initialize(x =>
             {
                 // get all the AutoMapper Profile classes using reflection
-                var profileTypes = typeof(BaseProfile).Assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(BaseProfile)));
+
+                var profileTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => type.IsSubclassOf(typeof(BaseProfile)));
 
                 foreach (var type in profileTypes)
                 {

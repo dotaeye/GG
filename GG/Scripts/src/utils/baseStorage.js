@@ -21,17 +21,14 @@ class FakeStorage {
 }
 
 var baseStorage = {};
-var store = {};
 var stringify = JSON.stringify;
 var parse = JSON.parse;
 
 if (env.CLIENT) {
   baseStorage = window.Storage;
-  store = window.sessionStorage;
 }
 else {
   baseStorage = FakeStorage;
-  store = new FakeStorage();
 }
 
 baseStorage.prototype.set = function (key, value, expired) {
@@ -94,8 +91,15 @@ baseStorage.prototype._expired = function (wrapped) {
   return false;
 };
 
-baseStorage.prototype.setNamespace = function (namespace) {
+baseStorage.setNamespace = function (namespace) {
   baseStorage.prototype.namespace = namespace;
 };
 
-export default store;
+baseStorage.getStorage = function (name) {
+  if(name==='session'){
+    return sessionStorage;
+  }
+  return localStorage;
+};
+
+export default baseStorage;

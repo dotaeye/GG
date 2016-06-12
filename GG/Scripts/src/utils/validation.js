@@ -1,53 +1,53 @@
 const isEmpty = value => value === undefined || value === null || value === '';
-const join = (rules) => (value, data) => rules.map(rule => rule(value, data)).filter(error => !!error)[0 /* first error */];
+const join = (rules) => (value, data, key) => rules.map(rule => rule(value, data, key)).filter(error => !!error)[0 /* first error */];
 
-export function email(value) {
+export function email(value, data, displayName) {
   // Let's not start a debate on email regex. This is just for an example app!
   if (!isEmpty(value) && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-    return 'Invalid email address';
+    return `${displayName}必须为正确的邮箱地址`;
   }
 }
 
-export function required(value) {
+export function required(value, data, displayName) {
   if (isEmpty(value)) {
-    return 'Required';
+    return `${displayName}不允许为空`;
   }
 }
 
 export function equalTo(comparefield, errorMessage) {
-  return (value, data)=> {
+  return (value, data, displayName)=> {
     if (value !== data[comparefield]) {
-      return errorMessage ? errorMessage : `The password and confirmation password do not match.`
+      return errorMessage ? errorMessage : `两次密码输入不一致`
     }
   }
 }
 
 export function minLength(min) {
-  return value => {
+  return (value, data, displayName) => {
     if (!isEmpty(value) && value.length < min) {
-      return `Must be at least ${min} characters`;
+      return `${displayName}至少为${min}个字符`;
     }
   };
 }
 
 export function maxLength(max) {
-  return value => {
+  return (value, data, displayName) => {
     if (!isEmpty(value) && value.length > max) {
-      return `Must be no more than ${max} characters`;
+      return `${displayName}不能超过${min}个字符`;
     }
   };
 }
 
 export function integer(value) {
   if (!Number.isInteger(Number(value))) {
-    return 'Must be an integer';
+    return `${displayName}必须为整数`;
   }
 }
 
 export function oneOf(enumeration) {
-  return value => {
+  return (value, data, displayName) => {
     if (!~enumeration.indexOf(value)) {
-      return `Must be one of: ${enumeration.join(', ')}`;
+      return `${displayName}必须为 ${enumeration.join(', ')} 其中的一个`;
     }
   };
 }
@@ -63,12 +63,12 @@ export function match(field) {
 }
 
 
-export function createValidator(rules) {
+export function createValidator(options) {
   return (data = {}) => {
     const errors = {};
-    Object.keys(rules).forEach((key) => {
-      const rule = join([].concat(rules[key])); // concat enables both functions and arrays of functions
-      const error = rule(data[key], data);
+    Object.keys(options).forEach((key) => {
+      const rule = join([].concat(options[key].rules)); // concat enables both functions and arrays of functions
+      const error = rule(data[key], data, options[key].displayName);
       if (error) {
         errors[key] = error;
       }

@@ -7,13 +7,13 @@ namespace GG.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class UpdateBlogFields : IMigrationMetadata
+    public sealed partial class initProject : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateBlogFields));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initProject));
         
         string IMigrationMetadata.Id
         {
-            get { return "201601050843073_UpdateBlogFields"; }
+            get { return "201606080840080_initProject"; }
         }
         
         string IMigrationMetadata.Source

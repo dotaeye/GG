@@ -10,37 +10,39 @@ import connectStatic from '../utils/connectStatic'
 
 const Login = React.createClass({
 
-    static:{
-        animate:'example1'
-    },
+  static: {
+    animate: 'example1'
+  },
 
-    onSubmit(data){
-        data.grant_type = 'password';
-        this.props.actions.login(data);
-    },
+  onSubmit(data){
+    data.grant_type = 'password';
+    this.props.actions.login(data);
+  },
 
-    render() {
+  render() {
 
-        let {auth:{loggingIn, loginError}} =this.props;
+    let {auth:{loggingIn, loginError}} =this.props;
 
-        return (
-            <div id="login" className='container'>
-                <h1>Login Page</h1>
-                <LoginForm onSubmit={this.onSubmit} submitting={loggingIn} ref='loginForm'/>
-            </div>
-        );
-    }
+    return (
+      <div id="login">
+        <div className='login-form'>
+          <h1>Login Page</h1>
+          <LoginForm onSubmit={this.onSubmit} submitting={loggingIn} ref='loginForm'/>
+        </div>
+      </div>
+    );
+  }
 });
 
 function mapStateToProps(state) {
-    return {
-        auth: state.auth,
-        form: state.form
-    }
+  return {
+    auth: state.auth,
+    form: state.form
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-    return {actions: bindActionCreators(actionCreators, dispatch)}
+  return {actions: bindActionCreators(actionCreators, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)
